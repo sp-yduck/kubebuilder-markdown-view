@@ -3,4 +3,14 @@ layout:
 - go.kubebuilder.io/v3
 projectName: kubebuilder-markdown-viewer
 repo: github.com/sp-yduck/kubebuilder-markdown-viewer
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: sp-yduck.github.io
+  group: view
+  kind: MarkdownView
+  path: github.com/sp-yduck/kubebuilder-markdown-viewer/api/v1
+  version: v1
 version: "3"
