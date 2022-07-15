@@ -1,0 +1,6 @@
+domain: sp-yduck.github.io
+layout:
+- go.kubebuilder.io/v3
+projectName: kubebuilder-markdown-viewer
+repo: github.com/sp-yduck/kubebuilder-markdown-viewer
+version: "3"
