@@ -28,18 +28,45 @@ type MarkdownViewSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of MarkdownView. Edit markdownview_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Markdowns contain the markdown files you want to display.
+    // The key indicates the file name and must not overlap with the keys.
+    // The value is the content in markdown format.
+    //+kubebuilder:validation:Required
+    //+kubebuilder:validation:MinProperties=1
+	Markdowns map[string]string `json:"markdowns,omitempty"`
+
+	// Replicas is the number of viewers.
+    // +kubebuilder:default=1
+    // +optional
+	Replicas int32 `json:"replicas,omitempty"`
+
+	// ViewerImage is the image name of the viewer.
+    // +optional
+    ViewerImage string `json:"viewerImage,omitempty"`
 }
 
 // MarkdownViewStatus defines the observed state of MarkdownView
 type MarkdownViewStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	Condition MarkdownViewCondition `json:"condition"`
 }
+
+//+kubebuilder:validation:Enum=NotReady;Available;Healthy
+type MarkdownViewCondition string
+
+const (
+    MarkdownViewNotReady  = MarkdownViewCondition("NotReady")
+    MarkdownViewAvailable = MarkdownViewCondition("Available")
+    MarkdownViewHealthy   = MarkdownViewCondition("Healthy")
+)
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+
+// +kubebuilder:printcolumn:name="Replicas",type=int32,JSONPath=".spec.replicas"
+// +kubebuilder:printcolumn:name="Condition",type=string,JSONPath=".status.condition"
 
 // MarkdownView is the Schema for the markdownviews API
 type MarkdownView struct {
